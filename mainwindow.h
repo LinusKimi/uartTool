@@ -5,8 +5,12 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QLabel>
+
 #include <dialogconnectinfo.h>
 #include <dialogjili.h>
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,8 +24,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void MesStatusBar();
+
 private:
     Ui::MainWindow *ui;
+
+    // status bar collecter
+    qint64 sendCnt = 0;
+    qint64 recvCnt = 0;
+    QLabel *statusBarReadBytesLabel, *statusBarWriteBytesLabel;
 
     // 和页面相关
     bool isConnected = false;

@@ -8,13 +8,35 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    MesStatusBar();
     connectInterFunction();
 
+    ui->statusbar->showMessage("就绪");
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::MesStatusBar()
+{
+    statusBar()->setSizeGripEnabled(false);//去掉状态栏右下角的三角
+
+    auto receiveByteCountLabel = new QLabel(tr("接收 "), this);
+    statusBarReadBytesLabel = new QLabel(this);
+    statusBarReadBytesLabel->setMinimumWidth(100);
+    statusBarReadBytesLabel->setText(QString::number(recvCnt));
+
+    auto sendByteCountLabel = new QLabel(tr("发送 "), this);
+    statusBarWriteBytesLabel = new QLabel(this);
+    statusBarWriteBytesLabel->setMinimumWidth(100);
+    statusBarWriteBytesLabel->setText(QString::number(sendCnt));
+
+    statusBar()->addPermanentWidget(receiveByteCountLabel);
+    statusBar()->addPermanentWidget(statusBarReadBytesLabel);
+    statusBar()->addPermanentWidget(sendByteCountLabel);
+    statusBar()->addPermanentWidget(statusBarWriteBytesLabel);
 }
 
 void MainWindow::connectInterFunction()
@@ -90,7 +112,22 @@ void MainWindow::connectInterFunction()
     });
     // 是否显示
     connect(ui->actionDataShow, &QAction::triggered,[&](){
+        if(isShowData == false)
+        {
+            isShowData = true;
+            ui->actionDataShow->setIcon(QIcon(":/images/resource/img/enableShow.png"));
+            ui->actionDataShow->setText("显示");
 
+            ui->tableView->show();
+        }
+        else
+        {
+            ui->actionDataShow->setIcon(QIcon(":/images/resource/img/disableShow.png"));
+            ui->actionDataShow->setText("屏蔽");
+            isShowData = false;
+
+            ui->tableView->hide();
+        }
     });
 
     // 触发激励

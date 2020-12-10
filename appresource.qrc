@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>resource/img/newFile.png</file>
+        <file>resource/img/openFile.png</file>
+        <file>resource/img/connectStart.png</file>
+        <file>resource/img/connectStop.png</file>
+        <file>resource/img/connectInfo.png</file>
+        <file>resource/img/hexCode.png</file>
+        <file>resource/img/clearData.png</file>
+        <file>resource/img/disableShow.png</file>
+        <file>resource/img/enableShow.png</file>
+        <file>resource/img/add.png</file>
+        <file>resource/img/jili.png</file>
+        <file>resource/img/stop.png</file>
+    </qresource>
+</RCC>

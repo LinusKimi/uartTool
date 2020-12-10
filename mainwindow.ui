@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>赛博朋克2077</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="actionCreateFile"/>
+    <addaction name="actionOpenFile"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionConnect"/>
+   <addaction name="separator"/>
+   <addaction name="actionConnectInfo"/>
+   <addaction name="separator"/>
+   <addaction name="actionHEX"/>
+   <addaction name="actionClearData"/>
+   <addaction name="actionDataShow"/>
+   <addaction name="separator"/>
+   <addaction name="actionJiLi"/>
+   <addaction name="actionJiLiStop"/>
+   <addaction name="separator"/>
+   <addaction name="actionAddJiLi"/>
+  </widget>
+  <action name="actionCreateFile">
+   <property name="icon">
+    <iconset theme="新建" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/newFile.png</normaloff>:/images/resource/img/newFile.png</iconset>
+   </property>
+   <property name="text">
+    <string>新建</string>
+   </property>
+   <property name="toolTip">
+    <string>新建</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="appresource.qrc">
+     <normaloff>:/images/resource/img/openFile.png</normaloff>:/images/resource/img/openFile.png</iconset>
+   </property>
+   <property name="text">
+    <string>打开</string>
+   </property>
+   <property name="toolTip">
+    <string>打开</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionConnect">
+   <property name="icon">
+    <iconset theme="打开" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/connectStart.png</normaloff>:/images/resource/img/connectStart.png</iconset>
+   </property>
+   <property name="text">
+    <string>打开</string>
+   </property>
+   <property name="toolTip">
+    <string>打开</string>
+   </property>
+  </action>
+  <action name="actionConnectInfo">
+   <property name="icon">
+    <iconset theme="连接属性" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/connectInfo.png</normaloff>:/images/resource/img/connectInfo.png</iconset>
+   </property>
+   <property name="text">
+    <string>连接方式</string>
+   </property>
+   <property name="toolTip">
+    <string>连接属性</string>
+   </property>
+  </action>
+  <action name="actionHEX">
+   <property name="icon">
+    <iconset theme="HEX" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/hexCode.png</normaloff>:/images/resource/img/hexCode.png</iconset>
+   </property>
+   <property name="text">
+    <string>HEX</string>
+   </property>
+   <property name="toolTip">
+    <string>HEX</string>
+   </property>
+  </action>
+  <action name="actionClearData">
+   <property name="icon">
+    <iconset theme="清除" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/clearData.png</normaloff>:/images/resource/img/clearData.png</iconset>
+   </property>
+   <property name="text">
+    <string>清除</string>
+   </property>
+   <property name="toolTip">
+    <string>清除</string>
+   </property>
+  </action>
+  <action name="actionDataShow">
+   <property name="icon">
+    <iconset theme="显示" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/enableShow.png</normaloff>:/images/resource/img/enableShow.png</iconset>
+   </property>
+   <property name="text">
+    <string>显示</string>
+   </property>
+   <property name="toolTip">
+    <string>显示</string>
+   </property>
+  </action>
+  <action name="actionJiLi">
+   <property name="icon">
+    <iconset theme="激励" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/jili.png</normaloff>:/images/resource/img/jili.png</iconset>
+   </property>
+   <property name="text">
+    <string>激励</string>
+   </property>
+   <property name="toolTip">
+    <string>激励</string>
+   </property>
+  </action>
+  <action name="actionJiLiStop">
+   <property name="icon">
+    <iconset theme="停止" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/stop.png</normaloff>:/images/resource/img/stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>停止</string>
+   </property>
+   <property name="toolTip">
+    <string>停止</string>
+   </property>
+  </action>
+  <action name="actionAddJiLi">
+   <property name="icon">
+    <iconset theme="添加" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/add.png</normaloff>:/images/resource/img/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>添加</string>
+   </property>
+   <property name="toolTip">
+    <string>添加</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="appresource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

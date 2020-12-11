@@ -9,9 +9,17 @@ bool IncentiveDoc::readCLFile(QList<struct CMDDATA> &data, QString filePath)
 {
     QFile _file(filePath);
     if(!_file.open(QFile::ReadOnly))
-        return true;
+        return false;
 
+    QDomDocument doc("ss");
 
+    if(!doc.setContent(&_file))
+    {
+        _file.close();
+        return false;
+    }
+
+    return true;
 }
 
 bool IncentiveDoc::writeCLFile(const QList<struct CMDDATA> &data, QString filePath)

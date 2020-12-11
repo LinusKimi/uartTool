@@ -8,9 +8,23 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 
+#include <data/serialreadwrite.h>
+
 namespace Ui {
 class DialogConnectInfo;
 }
+
+typedef struct
+{
+    // 是否 串口 default : true
+    bool isSerial;
+
+    SerialSettings serialSetting;
+
+    // 网络
+    // ... 待定
+
+}FrameData;
 
 class DialogConnectInfo : public QDialog
 {
@@ -21,18 +35,7 @@ public:
     ~DialogConnectInfo();
 
     // 页面整合 数据类型
-    typedef struct
-    {
-        // 是否 串口 default : true
-        bool isSerial;
-        QString serialPort[5];
-
-        // 网络
-        // ... 待定
-
-    }FrameData;
-
-    FrameData _frameData = {true, {0}};
+    FrameData _frameData;
 
 private slots:
     void on_buttonBox_accepted();
@@ -40,6 +43,8 @@ private slots:
     void on_buttonBox_rejected();
 
     void addSerialItems();
+
+    void initUiItems();
 
 private:
     Ui::DialogConnectInfo *ui;

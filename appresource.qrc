@@ -12,5 +12,6 @@
         <file>resource/img/add.png</file>
         <file>resource/img/jili.png</file>
         <file>resource/img/stop.png</file>
+        <file>resource/img/setdefault.png</file>
     </qresource>
 </RCC>

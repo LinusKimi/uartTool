@@ -11,7 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
     MesStatusBar();
     connectInterFunction();
 
+    ui->actionJiLi->setEnabled(false);
+    ui->actionJiLiStop->setEnabled(false);
     ui->statusbar->showMessage("就绪");
+
+    initTabView();
+
+//    ui->tableView->hide();
 }
 
 MainWindow::~MainWindow()
@@ -37,6 +43,12 @@ void MainWindow::MesStatusBar()
     statusBar()->addPermanentWidget(statusBarReadBytesLabel);
     statusBar()->addPermanentWidget(sendByteCountLabel);
     statusBar()->addPermanentWidget(statusBarWriteBytesLabel);
+}
+
+void MainWindow::initTabView()
+{
+
+
 }
 
 void MainWindow::connectInterFunction()
@@ -74,6 +86,47 @@ void MainWindow::connectInterFunction()
 
         if(isConnected == false)
         {
+            if(_readWrite != nullptr)
+            {
+                _readWrite->cloese();
+                delete _readWrite;
+                _readWrite = nullptr;
+            }
+
+            bool i_result = false;
+
+            // 是否 串口
+            if(_frameData.isSerial)
+            {
+                auto readwriter = new SerialReadWrite();
+                readwriter->setSerialSetting(_frameData.serialSetting);
+                i_result = readwriter->open();
+
+                if(!i_result)
+                {
+                    ui->statusbar->showMessage("串口被占用或者不存在!");
+                    return ;
+                }
+                _readWrite = readwriter;
+                ui->actionConnectInfo->setEnabled(false);
+                ui->statusbar->showMessage(QString("%1 %2 %3 %4 %5 打开").arg(_frameData.serialSetting.name)
+                                           .arg(_frameData.serialSetting.baudRate).arg(_frameData.serialSetting.dataBits)
+                                           .arg(_frameData.serialSetting.parity).arg(_frameData.serialSetting.stopBits));
+            }
+            else
+            {
+                ;
+            }
+
+            connect(_readWrite, &AbsTractReadWrite::readyRead, [&](){
+                auto data = _readWrite->readAll();
+                if(!data.isEmpty())
+                {
+                    displayReceiveData(data);
+                    recvCnt += data.count();
+                    statusBarRecvBytesCnt();
+                }
+            });
 
             isConnected = true;
             ui->actionConnect->setIcon(QIcon(":/images/resource/img/connectStop.png"));
@@ -81,6 +134,22 @@ void MainWindow::connectInterFunction()
         }
         else
         {
+
+            if(_readWrite != nullptr)
+            {
+                _readWrite->cloese();
+                delete _readWrite;
+                _readWrite = nullptr;
+            }
+
+            ui->actionConnectInfo->setEnabled(true);
+
+            if(_frameData.isSerial)
+                ui->statusbar->showMessage(QString("%1 %2 %3 %4 %5 关闭").arg(_frameData.serialSetting.name)
+                                           .arg(_frameData.serialSetting.baudRate).arg(_frameData.serialSetting.dataBits)
+                                           .arg(_frameData.serialSetting.parity).arg(_frameData.serialSetting.stopBits));
+            else
+                ui->statusbar->showMessage("ETH 关闭");
 
             isConnected = false;
             ui->actionConnect->setIcon(QIcon(":/images/resource/img/connectStart.png"));
@@ -96,19 +165,31 @@ void MainWindow::connectInterFunction()
         _connectInfo->setWindowModality(Qt::ApplicationModal);
         _connectInfo->show();
 
-        connect(_connectInfo, &DialogConnectInfo::sendData,[&](DialogConnectInfo::FrameData _frameData){
-            qDebug() << _frameData.isSerial;
+        connect(_connectInfo, &DialogConnectInfo::sendData,[&](FrameData _frameData){
+            this->_frameData = std::move(_frameData);
+            qDebug() << this->_frameData.isSerial;
         });
     });
 
     // hex 显示
     connect(ui->actionHEX, &QAction::triggered,[&](){
+        if(isShowHexCode)
+        {
+            isShowHexCode = false;
 
+        }
+        else
+        {
+            isShowHexCode = true;
+        }
     });
 
     // 清除显示
     connect(ui->actionClearData, &QAction::triggered,[&](){
+        ui->textBrowser->clear();
+        sendCnt = 0; recvCnt = 0;
 
+        statusBarRecvBytesCnt();
     });
     // 是否显示
     connect(ui->actionDataShow, &QAction::triggered,[&](){
@@ -118,7 +199,8 @@ void MainWindow::connectInterFunction()
             ui->actionDataShow->setIcon(QIcon(":/images/resource/img/enableShow.png"));
             ui->actionDataShow->setText("显示");
 
-            ui->tableView->show();
+            ui->textBrowser->clear();
+            ui->textBrowser->setEnabled(true);
         }
         else
         {
@@ -126,7 +208,9 @@ void MainWindow::connectInterFunction()
             ui->actionDataShow->setText("屏蔽");
             isShowData = false;
 
-            ui->tableView->hide();
+            ui->textBrowser->setEnabled(false);
+            ui->textBrowser->clear();
+
         }
     });
 
@@ -137,8 +221,9 @@ void MainWindow::connectInterFunction()
         _jili->setWindowModality(Qt::ApplicationModal);
         _jili->show();
 
-        connect(_jili, &DialogJili::sendData, [&](bool i, int64_t j){
-           qDebug() << i << j;
+        connect(_jili, &DialogJili::sendData, [&](JILIType _jili){
+           qDebug() << _jili.infiniteStyle << _jili.finitudeCnt;
+           _jiliType = std::move(_jili);
         });
     });
 
@@ -151,4 +236,56 @@ void MainWindow::connectInterFunction()
     connect(ui->actionAddJiLi, &QAction::triggered,[&](){
 
     });
+
+    // 系统设置
+    connect(ui->actionSetDefault, &QAction::triggered, [&](){
+
+    });
+}
+
+void MainWindow::statusBarRecvBytesCnt()
+{
+    statusBarReadBytesLabel->setText(QString::number(recvCnt));
+}
+
+void MainWindow::statusBarSendBytesCnt()
+{
+    statusBarWriteBytesLabel->setText(QString::number(sendCnt));
+}
+
+void MainWindow::displayReceiveData(const QByteArray &data)
+{
+    static QString s;
+    s.clear();
+
+    if(isShowData)
+    {
+        s.append("<font color=\"#0513fb\">[" + getTimestamp() + " R] </font>");
+
+        if(isShowHexCode)
+            s.append(dataToHex(data));
+        else
+            s.append(QString::fromLocal8Bit(data));
+
+        ui->textBrowser->append(s);
+    }
+}
+
+void MainWindow::displaySendData(const QByteArray &data)
+{
+    static QString s;
+    s.clear();
+
+    if(isShowData)
+    {
+        s.append("<font color=\"#49c21d\">[" + getTimestamp() + " T] </font>");
+
+        if(isShowHexCode)
+            s.append(dataToHex(data));
+        else
+            s.append(QString::fromLocal8Bit(data));
+
+        ui->textBrowser->append(s);
+    }
+
 }

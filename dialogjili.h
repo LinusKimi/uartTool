@@ -7,21 +7,26 @@ namespace Ui {
 class DialogJili;
 }
 
+typedef struct
+{
+    // 是否 无限循环
+    bool infiniteStyle;
+
+    // 有限激励 次数
+    int64_t finitudeCnt;
+}JILIType;
+
 class DialogJili : public QDialog
 {
     Q_OBJECT
 signals:
-    void sendData(bool, int64_t);
+    void sendData(JILIType);
 
 public:
     explicit DialogJili(QWidget *parent = nullptr);
     ~DialogJili();
 
-    // 是否 无限循环
-    bool infiniteStyle = true;
 
-    // 有限次数
-    int64_t finitudeCnt = 5;
 
 private slots:
     void on_radioButton_clicked();
@@ -34,6 +39,7 @@ private slots:
 
 private:
     Ui::DialogJili *ui;
+    JILIType _jiliType;
 };
 
 #endif // DIALOGJILI_H

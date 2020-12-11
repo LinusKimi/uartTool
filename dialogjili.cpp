@@ -17,13 +17,13 @@ DialogJili::~DialogJili()
 
 void DialogJili::on_radioButton_clicked()
 {
-    this->infiniteStyle = true;
+    _jiliType.infiniteStyle = true;
     ui->lineEdit->setEnabled(false);
 }
 
 void DialogJili::on_radioButton_2_clicked()
 {
-    this->infiniteStyle = false;
+    _jiliType.infiniteStyle = false;
     ui->lineEdit->setEnabled(true);
 }
 
@@ -34,5 +34,6 @@ void DialogJili::on_buttonBox_rejected()
 
 void DialogJili::on_buttonBox_accepted()
 {
-    emit sendData(infiniteStyle, (int64_t)ui->lineEdit->text().toLong());
+    _jiliType.finitudeCnt = (int64_t)ui->lineEdit->text().toLong();
+    emit sendData(_jiliType);
 }

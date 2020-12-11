@@ -44,6 +44,9 @@
          <height>0</height>
         </size>
        </property>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
       </widget>
      </widget>
     </item>
@@ -55,7 +58,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -102,6 +105,8 @@
    <addaction name="actionJiLiStop"/>
    <addaction name="separator"/>
    <addaction name="actionAddJiLi"/>
+   <addaction name="separator"/>
+   <addaction name="actionSetDefault"/>
   </widget>
   <action name="actionCreateFile">
    <property name="icon">
@@ -119,9 +124,6 @@
    </property>
   </action>
   <action name="actionOpenFile">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="appresource.qrc">
      <normaloff>:/images/resource/img/openFile.png</normaloff>:/images/resource/img/openFile.png</iconset>
@@ -230,6 +232,18 @@
    </property>
    <property name="toolTip">
     <string>添加</string>
+   </property>
+  </action>
+  <action name="actionSetDefault">
+   <property name="icon">
+    <iconset theme="设置" resource="appresource.qrc">
+     <normaloff>:/images/resource/img/setdefault.png</normaloff>:/images/resource/img/setdefault.png</iconset>
+   </property>
+   <property name="text">
+    <string>设置</string>
+   </property>
+   <property name="toolTip">
+    <string>设置</string>
    </property>
   </action>
  </widget>

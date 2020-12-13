@@ -4,7 +4,7 @@
 #include<QtXml>
 #include<QFile>
 
-typedef enum {HexCode, StrindCode, FileCode} CMDDATAFORMAT;
+typedef enum {HexCode = 0, StrindCode, FileCode} CMDDATAFORMAT;
 
 struct
 {
@@ -22,6 +22,8 @@ private:
 
 public:
     IncentiveDoc();
+
+    bool createCLFile(QString);
 
     bool readCLFile(QList<struct CMDDATA> &, QString);
 
